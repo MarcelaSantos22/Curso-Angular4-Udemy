@@ -75,8 +75,6 @@ $app -> post('/productos', function() use($app, $db){
     };
 
     echo json_encode($result);
-
-    var_dump($query);
 });
 
 // Metodo para listar todos los productos

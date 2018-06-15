@@ -1,4 +1,4 @@
-<h3>{{titulo}}</h3>
+<h3>{{titulo}}<span *ngIf="is_edit">: {{producto.nombre}}</span></h3>
 <hr>
 
 <form #formProducto="ngForm" class="col-lg-6 offset-3" id="form-producto" (ngSubmit)="onSubmit()">
@@ -18,7 +18,11 @@
     <input type='text' class='form-control' #precio="ngModel" name="precio" [(ngModel)]="producto.precio" pattern="[0-9]+" required>
 
     <label for=''>Imagen</label>
+    <div *ngIf="is_edit && producto.imagen">
+        <img src="http://10.125.65.148:8888/curso-angular4/curso-angular4-backend/uploads/{{producto.imagen}}" style="width: 30%">
+    </div>
     <input type='file' class='form-control' (change)="fileChangeEvent($event)">
+
 
     <input type='submit' value="{{titulo}}" class="btn btn-success offset-4" [disabled]="!formProducto.form.valid">
     <span *ngIf="!formProducto.form.valid" class="badge-danger col-lg-6 offset-3">Por favor llene todos los campos</span>

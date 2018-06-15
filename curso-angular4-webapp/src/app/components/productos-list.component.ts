@@ -11,6 +11,7 @@ import { Producto } from '../models/producto';
 export class ProductosListComponent {
   public titulo: string;
   public productos: Producto[];
+  public confirmado;
 
   constructor(
     private _route: ActivatedRoute,
@@ -22,19 +23,45 @@ export class ProductosListComponent {
 
   ngOnInit() {
     console.log('Se ha cargado el componente productos-list');
+    this.getProductos();
 
+  }
+
+  getProductos(){
     this._productoService.getProductos().subscribe(
       result => {
 
-       if (result.code !== 200) {
-         console.log(result);
-       }else{
-         console.log(result.data);
-         this.productos = result.data;
-       }
+        if (result.code !== 200) {
+          console.log(result);
+        } else {
+          console.log(result.data);
+          this.productos = result.data;
+        }
       },
       error => {
         console.log(<any>error);
+      }
+    );
+  }
+
+  borrarConfirm(id){
+    this.confirmado = id;
+  }
+  cancelarConfirm(){
+    this.confirmado = null;
+  }
+
+  onDeleteProducto(id){
+    this._productoService.deleteProducto(id).subscribe(
+      response => {
+        if (response.code === 200) {
+          this.getProductos();
+        }else{
+          alert('Error al borrar el producto');
+        }
+      },
+      error => {
+        console.log(error);
       }
     );
   }

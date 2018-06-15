@@ -25,7 +25,6 @@ export class ProductoAddComponent {
   ) {
     this.titulo = 'Crear nuevo producto';
     this.producto = new Producto(0, '', '', 0, '');
-    this.filesToUpload = [];
   }
 
   ngOnInit() {
@@ -38,9 +37,7 @@ export class ProductoAddComponent {
 
   }
    onSubmit(){
-     console.log(this.producto);
-
-     if (this.filesToUpload.length >= 1) {
+     if (this.filesToUpload && this.filesToUpload.length > 0) {
        this._productoService.makeFileRequest(GLOBAL.url + 'upload-file', [], this.filesToUpload).then((result) => {
          console.log(result);
 
@@ -57,9 +54,12 @@ export class ProductoAddComponent {
    }
 
    saveProducto(){
+
      this._productoService.addProducto(this.producto).subscribe(
        response => {
+         console.log('res', response);
          if (response.code === 200) {
+
            this._router.navigate(['/productos']);
          } else {
            console.log(response);
